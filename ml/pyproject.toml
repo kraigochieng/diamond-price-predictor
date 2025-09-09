@@ -1,0 +1,50 @@
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "ml"
+version = "0.0.1"
+description = "A short description of the project."
+authors = [
+  { name = "Your name (or your organization/company/team)" },
+]
+
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    
+]
+dependencies = [
+    "ipython",
+    "jupyterlab",
+    "loguru",
+    "matplotlib",
+    "mkdocs",
+    "notebook",
+    "numpy",
+    "pandas",
+    "pip",
+    "python-dotenv",
+    "ruff",
+    "scikit-learn",
+    "tqdm",
+    "typer",
+    "mlflow (>=3.3.2,<4.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+]
+requires-python = ">=3.10,<3.13"
+
+
+[tool.ruff]
+line-length = 99
+src = ["ml"]
+include = ["pyproject.toml", "ml/**/*.py"]
+
+[tool.ruff.lint]
+extend-select = ["I"]  # Add import sorting
+
+[tool.ruff.lint.isort]
+known-first-party = ["ml"]
+force-sort-within-sections = true
+

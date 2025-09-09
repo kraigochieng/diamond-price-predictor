@@ -1,0 +1,10 @@
+artifact_location: file:///home/kraigochieng/projects/diamond-price-predictor/ml/mlruns/0/models/m-fd3b92a1db544eedb0f19d341eea45b4/artifacts
+creation_timestamp: 1757453829870
+experiment_id: '0'
+last_updated_timestamp: 1757453834732
+model_id: m-fd3b92a1db544eedb0f19d341eea45b4
+model_type: null
+name: ridge_model_random_search
+source_run_id: eece491aac924a0b8eb5a378ee1e5531
+status: 2
+status_message: null

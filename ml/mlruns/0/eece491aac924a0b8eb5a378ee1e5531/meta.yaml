@@ -1,0 +1,14 @@
+artifact_uri: file:///home/kraigochieng/projects/diamond-price-predictor/ml/mlruns/0/eece491aac924a0b8eb5a378ee1e5531/artifacts
+end_time: 1757453834736
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: eece491aac924a0b8eb5a378ee1e5531
+run_name: upbeat-duck-467
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757453785065
+status: 3
+tags: []
+user_id: kraigochieng
