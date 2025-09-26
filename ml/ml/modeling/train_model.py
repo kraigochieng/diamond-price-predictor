@@ -9,24 +9,68 @@ from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
-from ml.config import MODELS_DIR, PROCESSED_FEATURES_REDUCED_DATA_FILE, logger
+from ml.config import (
+    CATEGORY_ORDERS,
+    MODELS_DIR,
+    PROCESSED_FEATURES_REDUCED_DATA_FILE,
+    RAW_DATA_FILE,
+    TARGET_COLUMN,
+    logger,
+    settings,
+)
+from ml.data.transformer import DiamondDataCleaner
+from ml.features.transformer import (
+    CaratOnly,
+    DropLowValueFeatures,
+    DropMulticollinear,
+    FeatureEncoder,
+    ToFloat64,
+)
+
+mlflow.set_tracking_uri(f"http://{settings.mlflow_tracking_host}:{settings.mlflow_tracking_port}")
 
 
-def train_model(df_path: str, model_out: str):
-    logger.info("Starting model training with RandomizedSearchCV")
+mlflow.set_experiment(settings.mlflow_experiment_name)
+
+
+def train_model(df_path: str):
+    mlflow.autolog()
+    logger.info("Enabled autolog")
 
     df = pd.read_csv(df_path)
     logger.info(f"Dataset shape: {df.shape}")
 
-    X = df.drop(columns=["price", "cut", "color", "clarity"])
-    y = df["price"]
+    df = df[df["price"] > 0]
+    logger.info(f"Dataset shape after removing price of 0: {df.shape}")
+
+    cleaner = DiamondDataCleaner()
+    df = cleaner.transform(df)
+
+    logger.info(f"Dataset shape after cleaning dataset(row removal): {df.shape}")
+
+    # Carat is the only valuable column
+    X = df[["carat"]]
+    y = df[TARGET_COLUMN].astype("float64")
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     logger.info(f"Train size: {X_train.shape}, Test size: {X_test.shape}")
 
     # === Define pipeline: Polynomial expansion + Ridge regression ===
+    # pipeline = Pipeline(
+    #     [
+    #         ("encode_categoricals", FeatureEncoder(category_orders=CATEGORY_ORDERS)),
+    #         ("drop_multicollinear", DropMulticollinear()),
+    #         ("drop_low_value", DropLowValueFeatures()),
+    #         ("to_float", ToFloat64()),
+    #         ("poly", PolynomialFeatures(include_bias=False)),
+    #         # ("scaler", StandardScaler()),
+    #         ("ridge", Ridge()),
+    #     ]
+    # )
+
     pipeline = Pipeline(
         [
+            ("to_float", ToFloat64()),
             ("poly", PolynomialFeatures(include_bias=False)),
             ("scaler", StandardScaler()),
             ("ridge", Ridge()),
@@ -52,6 +96,7 @@ def train_model(df_path: str, model_out: str):
     )
 
     with mlflow.start_run():
+        logger.info("Starting model training with RandomizedSearchCV")
         search.fit(X_train, y_train)
 
         best_model = search.best_estimator_
@@ -63,23 +108,16 @@ def train_model(df_path: str, model_out: str):
         logger.info(f"Best Params: {search.best_params_}")
         logger.info(f"R²={r2:.4f}, MSE={mse:.2f}")
 
-        # Log best params & metrics
-        mlflow.log_params(search.best_params_)
-        mlflow.log_metric("r2", r2)
-        mlflow.log_metric("mse", mse)
-
-        # Ensure input_example is float64
-        input_example = X_test.iloc[:1].astype("float64")
-
+        input_example = X_test.iloc[:1]
         mlflow.sklearn.log_model(
             best_model,
             name="ridge_model_random_search",
             input_example=input_example,
-            signature=infer_signature(X_test.astype("float64"), y_pred.astype("float64")),
+            signature=infer_signature(X_test, y_pred),
         )
 
         logger.success("Model training completed with RandomizedSearchCV and logged to MLflow")
 
 
 if __name__ == "__main__":
-    train_model(PROCESSED_FEATURES_REDUCED_DATA_FILE, f"{MODELS_DIR}/ridge_model.pkl")
+    train_model(RAW_DATA_FILE)
