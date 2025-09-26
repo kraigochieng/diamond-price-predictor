@@ -1,4 +1,8 @@
-.PHONY: all data features train figures clean-data clean-models clean-figures clean-all
+PORT ?= 5001
+MODEL_NAME ?= best_model
+MODEL_VERSION ?= 1
+
+.PHONY: all data features train figures clean-data clean-models clean-figures clean-all serve
 
 # Default target
 all: data features train figures
@@ -10,8 +14,8 @@ data:
 features: data
 	poetry run python ml/features/build_features.py
 
-train: features
-	poetry run python ml/modeling/train_model.py
+train:
+	poetry run python -m ml.modeling.train_model
 
 figures: data features
 	poetry run python ml/visualisation/eda_plots.py
@@ -27,3 +31,9 @@ clean-figures:
 	rm -rf reports/figures/*.png
 
 clean-all: clean-data clean-models clean-figures
+
+serve:
+	poetry run mlflow models serve \
+		-m models:/$(MODEL_NAME)/$(MODEL_VERSION) \
+		-p $(PORT) \
+		--env-manager=local
