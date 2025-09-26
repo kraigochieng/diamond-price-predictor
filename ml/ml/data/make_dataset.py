@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
+from sklearn.base import BaseEstimator, TransformerMixin
 from ml.config import INTERIM_CLEANED_DATA_FILE, RAW_DATA_FILE, logger
 
 
@@ -10,12 +10,13 @@ def load_raw_data(input_filepath: str) -> pd.DataFrame:
     logger.info(f"Loading raw data from {input_filepath}")
     df = pd.read_csv(input_filepath)
     logger.info(f"Raw data shape: {df.shape}")
-    df = df.drop(columns=["Unnamed: 0"], errors="ignore").drop_duplicates()
     return df
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     logger.info("Cleaning data and creating derived features")
+    df = df.drop(columns=["Unnamed: 0"], errors="ignore").drop_duplicates()
+
     # Derived features
     df["volume"] = df["x"] * df["y"] * df["z"]
     df["aspect_ratio"] = df["x"] / df["y"]
@@ -53,6 +54,8 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     logger.info(f"After removing outliers: {df.shape}")
 
     return df
+
+
 
 
 def main(input_filepath: str, output_filepath: str):
