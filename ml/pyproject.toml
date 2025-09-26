@@ -32,8 +32,10 @@ dependencies = [
     "typer",
     "mlflow (>=3.3.2,<4.0.0)",
     "seaborn (>=0.13.2,<0.14.0)",
+    "pydantic-settings (>=2.10.1,<3.0.0)",
+    "statsmodels (>=0.14.5,<0.15.0)",
 ]
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<4.0"
 
 
 [tool.ruff]
@@ -47,4 +49,9 @@ extend-select = ["I"]  # Add import sorting
 [tool.ruff.lint.isort]
 known-first-party = ["ml"]
 force-sort-within-sections = true
+
+
+
+
+
 
