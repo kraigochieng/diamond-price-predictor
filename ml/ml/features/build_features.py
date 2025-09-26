@@ -6,15 +6,17 @@ from ml.config import (
     PROCESSED_FEATURES_DATA_FILE,
     PROCESSED_FEATURES_REDUCED_DATA_FILE,
     logger,
+    CATEGORICAL_COLUMNS,
 )
 
 
 def encode_features(df: pd.DataFrame) -> pd.DataFrame:
     logger.info("Encoding categorical features")
 
-    for col, mapping in CATEGORY_ORDERS.items():
-        df[col + "_encoded"] = df[col].map(mapping)
-    # df = df.drop(columns=["x", "y", "z", "volume"])  # drop multicollinear
+    # for col, mapping in CATEGORY_ORDERS.items():
+    #     df[col + "_encoded"] = df[col].map(mapping)
+
+    df = pd.get_dummies(df, columns=CATEGORICAL_COLUMNS, drop_first=True)
 
     logger.info("Dropped multicollinear features")
 
