@@ -3,6 +3,7 @@ import sys
 
 from dotenv import load_dotenv
 from loguru import logger
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Load environment variables from .env file if it exists
 load_dotenv()
@@ -75,3 +76,16 @@ logger.add(
     backtrace=True,
     diagnose=True,
 )
+
+
+class Settings(BaseSettings):
+    
+
+    mlflow_tracking_host: str
+    mlflow_tracking_port: str
+    mlflow_experiment_name: str
+    mlflow_tracking_uri: str
+
+    model_config = SettingsConfigDict(extra="allow", env_file=Path(__file__).resolve().parents[3]/ ".env")
+
+settings = Settings()
