@@ -16,12 +16,35 @@ jobs:
               run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
 
-            - name: Build images with Docker Compose
-              # This command reads your docker-compose.yml file and builds the images.
-              run: docker compose --env-file /dev/null build
+            # - name: Build images with Docker Compose
+            #   # This command reads your docker-compose.yml file and builds the images.
+            #   run: docker compose --env-file /dev/null build
 
-            - name: Push images to Docker Hub
-              # This step is conditional. It ONLY runs on a push event to the main branch.
-              # It will be skipped for pull requests.
-              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-              run: docker compose --env-file /dev/null push
+            # - name: Push images to Docker Hub
+            #   # This step is conditional. It ONLY runs on a push event to the main branch.
+            #   # It will be skipped for pull requests.
+            #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+            #   run: docker compose --env-file /dev/null push
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Build & Push ML
+              uses: docker/build-push-action@v6
+              with:
+                context: ./ml
+                file: ./ml/Dockerfile
+                push: true
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:latest
+
+            # Build & Push Server image
+            - name: Build & Push Server
+              uses: docker/build-push-action@v6
+              with:
+                context: ./server
+                file: ./server/Dockerfile
+                push: true
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-server:latest
