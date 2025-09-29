@@ -4,12 +4,12 @@ RUN pip install --no-cache-dir poetry
 
 WORKDIR /app
 
-COPY ./ml/README.md ./ml/pyproject.toml ./ml/poetry.lock ./
+COPY README.md pyproject.toml poetry.lock /app/
 
 RUN poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi --no-root
  
-COPY ./ml/ .
+COPY . /app/
 
 EXPOSE 5000
 

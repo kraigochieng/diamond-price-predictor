@@ -4,17 +4,14 @@ RUN pip install --no-cache-dir poetry
 
 WORKDIR /app
 
-COPY ./server/README.md ./server/pyproject.toml ./server/poetry.lock ./
-
-# This is a path dependency
-COPY ./ml/ml ./ml
+COPY README.md pyproject.toml poetry.lock /app/
 
 RUN poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi --no-root
 
 
 
-COPY ./server/server ./server
+COPY server /app/server
 
 EXPOSE 8000
 
