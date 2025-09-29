@@ -1,3 +1,9 @@
-- [ ] find out how to creategod todo.md files
-- [ ] create docker files for the ml and server so that they can be hosted on render
-- [ ] host the frontend on vercel, look for free
+# Todo
+
+# In Progress
+
+-   [ ] find out how to creategod todo.md files
+-   [ ] create docker files for the ml and server so that they can be hosted on render
+-   [ ] host the frontend on vercel, look for free
+
+# Done
