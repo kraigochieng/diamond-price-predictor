@@ -10,6 +10,8 @@ services:
             - "${MLFLOW_PORT}:5000"
         volumes:
             - ./ml/mlruns:/app/mlruns
+        env_file:
+            - .env
         restart: unless-stopped
 
     # The FastAPI server
@@ -25,4 +27,6 @@ services:
             - ./ml/mlruns:/app/mlruns
         depends_on:
             - ml-ui
+        env_file:
+            - .env
         restart: unless-stopped
