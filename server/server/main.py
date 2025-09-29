@@ -3,11 +3,11 @@ from contextlib import asynccontextmanager
 import mlflow
 import pandas as pd
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from mlflow.pyfunc import PyFuncModel
-from ml.features.transformer import DiamondFeatureEngineer
+
 from server.schemas import DiamondRaw
 from server.settings import settings
-from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
