@@ -4,12 +4,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    mlflow_tracking_uri: str
-    mlflow_tracking_host: str
-    mlflow_tracking_port: str
     mlflow_experiment_name: str
-    mlflow_model_name: str
-    mlflow_model_version: str
+    mlflow_experiment_path: str
+    mlflow_artifact_path: str
+    mlflow_tracking_uri: str
+
+    databricks_host: str
+    databricks_token: str
 
     client_url: str
 
