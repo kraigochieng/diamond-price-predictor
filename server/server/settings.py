@@ -15,9 +15,8 @@ class Settings(BaseSettings):
 
     server_url: str
 
-
     model_config = SettingsConfigDict(
-        extra="allow", env_file=Path(__file__).resolve().parents[3] / ".env"
+        extra="allow", env_file=Path(__file__).resolve().parent.parent.parent / ".env"
     )
 
 

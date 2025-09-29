@@ -79,13 +79,14 @@ logger.add(
 
 
 class Settings(BaseSettings):
-    
-
     mlflow_tracking_host: str
     mlflow_tracking_port: str
     mlflow_experiment_name: str
     mlflow_tracking_uri: str
 
-    model_config = SettingsConfigDict(extra="allow", env_file=Path(__file__).resolve().parents[3]/ ".env")
+    model_config = SettingsConfigDict(
+        extra="allow", env_file=Path(__file__).resolve().parent.parent.parent / ".env"
+    )
+
 
 settings = Settings()
