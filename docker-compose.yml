@@ -7,7 +7,7 @@ services:
             dockerfile: ./ml/Dockerfile
         ports:
             # Use the variable from the .env file
-            - "${MLFLOW_PORT}:5000"
+            - "${MLFLOW_PORT:-5000}:5000"
         volumes:
             - ./ml/mlruns:/app/mlruns
         env_file:
@@ -22,7 +22,7 @@ services:
             dockerfile: ./server/Dockerfile
         ports:
             # Use the variable from the .env file
-            - "${SERVER_PORT}:8000"
+            - "${SERVER_PORT:-8000}:8000"
         volumes:
             - ./ml/mlruns:/app/mlruns
         depends_on:
