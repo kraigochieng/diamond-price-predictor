@@ -30,14 +30,14 @@ jobs:
               id: vars
               run: echo "ts=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
 
-            - name: Build & Push ML
-              uses: docker/build-push-action@v6
-              with:
-                  context: ./ml
-                  push: true
-                  tags: |
-                      ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:latest
-                      ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:${{ steps.vars.outputs.ts }}
+            # - name: Build & Push ML
+            #   uses: docker/build-push-action@v6
+            #   with:
+            #       context: ./ml
+            #       push: true
+            #       tags: |
+            #           ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:latest
+            #           ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:${{ steps.vars.outputs.ts }}
 
             # Build & Push Server image
             - name: Build & Push Server
