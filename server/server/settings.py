@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     mlflow_experiment_path: str
     mlflow_artifact_path: str
     mlflow_tracking_uri: str
+    mlflow_model_name: str
+    mlflow_model_version: str
 
     databricks_host: str
     databricks_token: str
