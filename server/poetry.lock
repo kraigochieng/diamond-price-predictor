@@ -543,14 +543,14 @@ yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
 name = "databricks-sdk"
-version = "0.66.0"
+version = "0.67.0"
 description = "Databricks SDK for Python (Beta)"
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "databricks_sdk-0.66.0-py3-none-any.whl", hash = "sha256:be4d7e48a682fc4cb8dc51730e660492054e143c7831c8f5485025cc72b0c765"},
-    {file = "databricks_sdk-0.66.0.tar.gz", hash = "sha256:0168e0ffdee8a11ee527e6de888ce0f6ed587329cf0c84038fb215a8b732600f"},
+    {file = "databricks_sdk-0.67.0-py3-none-any.whl", hash = "sha256:ef49e49db45ed12c015a32a6f9d4ba395850f25bb3dcffdcaf31a5167fe03ee2"},
+    {file = "databricks_sdk-0.67.0.tar.gz", hash = "sha256:f923227babcaad428b0c2eede2755ebe9deb996e2c8654f179eb37f486b37a36"},
 ]
 
 [package.dependencies]
@@ -4052,4 +4052,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4.0"
-content-hash = "508542d1f5fe22ad5044e39b35568e9405e8fcbc1638334a9ae408854dc90122"
+content-hash = "e938bfae75800aace9cc27ac15fccd1df00213f693dfe165642208de37dcd504"
