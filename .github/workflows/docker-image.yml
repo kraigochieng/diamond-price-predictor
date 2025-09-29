@@ -15,12 +15,13 @@ jobs:
             - name: Log in to Docker Hub
               run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
+
             - name: Build images with Docker Compose
               # This command reads your docker-compose.yml file and builds the images.
-              run: docker compose build
+              run: docker compose --env-file /dev/null build
 
             - name: Push images to Docker Hub
               # This step is conditional. It ONLY runs on a push event to the main branch.
               # It will be skipped for pull requests.
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-              run: docker compose push
+              run: docker compose --env-file /dev/null push
