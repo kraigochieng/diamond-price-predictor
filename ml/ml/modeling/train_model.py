@@ -1,3 +1,6 @@
+import os
+
+from databricks.sdk import WorkspaceClient
 import mlflow
 from mlflow.models import infer_signature
 import mlflow.sklearn
@@ -27,10 +30,21 @@ from ml.features.transformer import (
     ToFloat64,
 )
 
-mlflow.set_tracking_uri(f"http://{settings.mlflow_tracking_host}:{settings.mlflow_tracking_port}")
+# Authenticate Databricks
+# w = WorkspaceClient(host=settings.databricks_host, token=settings.databricks_token)
+os.environ["DATABRICKS_HOST"] = settings.databricks_host
+os.environ["DATABRICKS_TOKEN"] = settings.databricks_token
+# Set MLFlow Tracking URI
+mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
 
+# Create MLFlow Experiment if not created
+if mlflow.get_experiment_by_name(settings.mlflow_experiment_path) is None:
+    mlflow.create_experiment(
+        name=settings.mlflow_experiment_path, artifact_location=settings.mlflow_artifact_path
+    )
 
-mlflow.set_experiment(settings.mlflow_experiment_name)
+# Set MLFlow Experiment if not created
+mlflow.set_experiment(settings.mlflow_experiment_path)
 
 
 def train_model(df_path: str):
