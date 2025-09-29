@@ -79,10 +79,13 @@ logger.add(
 
 
 class Settings(BaseSettings):
-    mlflow_tracking_host: str
-    mlflow_tracking_port: str
     mlflow_experiment_name: str
+    mlflow_experiment_path: str
+    mlflow_artifact_path: str
     mlflow_tracking_uri: str
+
+    databricks_host: str
+    databricks_token: str
 
     model_config = SettingsConfigDict(
         extra="allow", env_file=Path(__file__).resolve().parent.parent.parent / ".env"
