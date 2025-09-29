@@ -5,15 +5,31 @@ import pandas as pd
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from mlflow.pyfunc import PyFuncModel
-
+from databricks.sdk import WorkspaceClient
 from server.schemas import DiamondRaw
 from server.settings import settings
+
+import os
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Authenticate databricks
+    os.environ["DATABRICKS_HOST"] = settings.databricks_host
+    os.environ["DATABRICKS_TOKEN"] = settings.databricks_token
+    
+    os.environ["MLFLOW_TRACKING_URI"] = settings.mlflow_tracking_uri
+
     # Set tracking URI
     mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
+
+    if mlflow.get_experiment_by_name(settings.mlflow_experiment_path) is None:
+        mlflow.create_experiment(
+            name=settings.mlflow_experiment_path,
+            artifact_location=settings.mlflow_artifact_path,
+        )
+
+    mlflow.set_experiment(settings.mlflow_experiment_path)
 
     model_uri = f"models:/{settings.mlflow_model_name}/{settings.mlflow_model_version}"
 
