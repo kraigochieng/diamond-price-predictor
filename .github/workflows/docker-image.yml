@@ -1,31 +1,29 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 
 jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            MLFLOW_PORT: 5000
+            SERVER_PORT: 8000
+        steps:
+            - uses: actions/checkout@v4
 
-  build:
+            - name: Log in to Docker Hub
+              run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    runs-on: ubuntu-latest
+            - name: Build images with Docker Compose
+              # This command reads your docker-compose.yml file and builds the images.
+              run: docker compose build
 
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-    - name: Build images with Docker Compose
-      # This command reads your docker-compose.yml file and builds the images.
-      run: docker compose build
-
-    - name: Push images to Docker Hub
-      # This step is conditional. It ONLY runs on a push event to the main branch.
-      # It will be skipped for pull requests.
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: docker compose push
-
-
+            - name: Push images to Docker Hub
+              # This step is conditional. It ONLY runs on a push event to the main branch.
+              # It will be skipped for pull requests.
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              run: docker compose push
