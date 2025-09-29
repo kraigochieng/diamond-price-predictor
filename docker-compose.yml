@@ -1,16 +1,16 @@
 services:
-    # The MLflow UI service
-    ml-ui:
-        image: kraigochieng/diamond-price-predictor-ml
-        build: ./ml
-        ports:
-            # Use the variable from the .env file
-            - "${MLFLOW_PORT:-5000}:5000"
-        volumes:
-            - ./ml/mlruns:/app/mlruns
-        env_file:
-            - .env
-        restart: unless-stopped
+    # # The MLflow UI service
+    # ml-ui:
+    #     image: kraigochieng/diamond-price-predictor-ml
+    #     build: ./ml
+    #     ports:
+    #         # Use the variable from the .env file
+    #         - "${MLFLOW_PORT:-5000}:5000"
+    #     volumes:
+    #         - ./ml/mlruns:/app/mlruns
+    #     env_file:
+    #         - .env
+    #     restart: unless-stopped
 
     # The FastAPI server
     server-api:
