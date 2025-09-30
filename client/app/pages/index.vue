@@ -42,9 +42,11 @@ const submit = async () => {
 
 	const payload: DiamondInput = { carat: carat.value };
 
+	const config = useRuntimeConfig();
+
 	try {
 		const res = await $fetch<DiamondOutput>(
-			"http://127.0.0.1:8000/predict",
+			`${config.public.apiBase}/predict`,
 			{
 				method: "POST",
 				body: payload,
