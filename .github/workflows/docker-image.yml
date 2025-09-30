@@ -40,7 +40,7 @@ jobs:
             #           ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-ml:${{ steps.vars.outputs.ts }}
 
             # Build & Push Server image
-            - name: Build & Push Server
+            - name: Build & Push Server Docker Image
               uses: docker/build-push-action@v6
               with:
                   context: ./server
@@ -48,3 +48,9 @@ jobs:
                   tags: |
                       ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-server:latest
                       ${{ secrets.DOCKERHUB_USERNAME }}/diamond-price-predictor-server:${{ steps.vars.outputs.ts }}
+
+            - name: Deploy Server Render Web Service
+              env:
+                  deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+              run: |
+                  curl "$deploy_url"
