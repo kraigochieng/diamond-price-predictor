@@ -15,7 +15,7 @@ features: data
 	poetry run python ml/features/build_features.py
 
 train:
-	poetry run python -m ml.modeling.train_model
+	poetry run python -m diamond_price_predictor_ml.modeling.train_model
 
 figures: data features
 	poetry run python ml/visualisation/eda_plots.py
