@@ -1,75 +1,71 @@
-# Nuxt Minimal Starter
+## Client (Nuxt 4)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 4 single‑page app for diamond price prediction. It calls the FastAPI server to obtain a prediction from the MLflow‑managed model.
 
-## Setup
+### Prerequisites
 
-Make sure to install dependencies:
+-   Node.js 18+ (20+ recommended)
+
+### Environment
+
+This app reads `NUXT_PUBLIC_API_BASE` from the root `.env` via Nuxt runtime config.
+
+`nuxt.config.ts` defaults to `http://localhost:8000` if not set:
+
+```10:16:/home/kraigochieng/projects/diamond-price-predictor/client/nuxt.config.ts
+        public: {
+            apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000',
+        }
+```
+
+### Install
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+### Run (dev)
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Opens `http://localhost:3000`.
 
-Build the application for production:
+### Build
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+### Preview production build
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Data contract
+
+Current minimal payload is a subset focused on `carat`:
+
+```1:12:/home/kraigochieng/projects/diamond-price-predictor/client/app/types/diamond.ts
+export interface DiamondInput {
+    carat: number;
+}
+
+export interface DiamondOutput {
+    message: string;
+    data: {
+        carat: number;
+    };
+    df: string;
+    preds: number;
+}
+```
+
+If the server expands inputs (e.g., cut/color/clarity, dimensions), update these types and the form accordingly.
+
+### Troubleshooting
+
+-   404/Network error: ensure the API is running and `NUXT_PUBLIC_API_BASE` points to it.
+-   CORS error: ensure the server `CLIENT_URL` includes `http://localhost:3000`.
