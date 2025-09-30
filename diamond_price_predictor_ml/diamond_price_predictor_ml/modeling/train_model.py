@@ -1,18 +1,18 @@
 import os
 
-from databricks.sdk import WorkspaceClient
 import mlflow
-from mlflow.models import infer_signature
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
+from databricks.sdk import WorkspaceClient
+from mlflow.models import infer_signature
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
-from ml.config import (
+from diamond_price_predictor_ml.config import (
     CATEGORY_ORDERS,
     MODELS_DIR,
     PROCESSED_FEATURES_REDUCED_DATA_FILE,
@@ -21,8 +21,8 @@ from ml.config import (
     logger,
     settings,
 )
-from ml.data.transformer import DiamondDataCleaner
-from ml.features.transformer import (
+from diamond_price_predictor_ml.data.transformer import DiamondDataCleaner
+from diamond_price_predictor_ml.features.transformer import (
     CaratOnly,
     DropLowValueFeatures,
     DropMulticollinear,
@@ -40,7 +40,8 @@ mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
 # Create MLFlow Experiment if not created
 if mlflow.get_experiment_by_name(settings.mlflow_experiment_path) is None:
     mlflow.create_experiment(
-        name=settings.mlflow_experiment_path, artifact_location=settings.mlflow_artifact_path
+        name=settings.mlflow_experiment_path,
+        artifact_location=settings.mlflow_artifact_path,
     )
 
 # Set MLFlow Experiment if not created
@@ -66,7 +67,9 @@ def train_model(df_path: str):
     X = df[["carat"]]
     y = df[TARGET_COLUMN].astype("float64")
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=42
+    )
     logger.info(f"Train size: {X_train.shape}, Test size: {X_test.shape}")
 
     # === Define pipeline: Polynomial expansion + Ridge regression ===
@@ -130,7 +133,9 @@ def train_model(df_path: str):
             signature=infer_signature(X_test, y_pred),
         )
 
-        logger.success("Model training completed with RandomizedSearchCV and logged to MLflow")
+        logger.success(
+            "Model training completed with RandomizedSearchCV and logged to MLflow"
+        )
 
 
 if __name__ == "__main__":

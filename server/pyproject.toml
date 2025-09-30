@@ -13,13 +13,10 @@ dependencies = [
     "mlflow (>=3.4.0,<4.0.0)",
     "pydantic-settings (>=2.10.1,<3.0.0)",
     "databricks-sdk (>=0.67.0,<0.68.0)",
+    "diamond-price-predictor-ml (>=0.0.1,<0.0.2)",
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.dependencies]
-python = "^3.11,<4.0"
-ml = { path = "../ml" }

@@ -1,12 +1,12 @@
 import pandas as pd
 
-from ml.config import (
+from diamond_price_predictor_ml.config import (
+    CATEGORICAL_COLUMNS,
     CATEGORY_ORDERS,
     INTERIM_CLEANED_DATA_FILE,
     PROCESSED_FEATURES_DATA_FILE,
     PROCESSED_FEATURES_REDUCED_DATA_FILE,
     logger,
-    CATEGORICAL_COLUMNS,
 )
 
 

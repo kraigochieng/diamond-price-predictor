@@ -3,7 +3,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
-from ml.config import INTERIM_CLEANED_DATA_FILE, RAW_DATA_FILE, logger
+
+from diamond_price_predictor_ml.config import (
+    INTERIM_CLEANED_DATA_FILE,
+    RAW_DATA_FILE,
+    logger,
+)
 
 
 def load_raw_data(input_filepath: str) -> pd.DataFrame:

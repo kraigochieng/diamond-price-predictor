@@ -3,18 +3,22 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
-name = "ml"
+# This is the project/package name for PyPI and Poetry
+name = "diamond_price_predictor_ml"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Diamond price predictor ML package"
 authors = [
-  { name = "Your name (or your organization/company/team)" },
+  { name = "Your Name" }
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+
+# This tells Poetry which folder is the actual Python package
+packages = [
+    { include = "diamond_price_predictor_ml" }
 ]
 
-readme = "README.md"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    
-]
+# Dependencies
 dependencies = [
     "ipython",
     "jupyterlab",
@@ -30,14 +34,16 @@ dependencies = [
     "scikit-learn",
     "tqdm",
     "typer",
-    "mlflow (>=3.3.2,<4.0.0)",
-    "seaborn (>=0.13.2,<0.14.0)",
-    "pydantic-settings (>=2.10.1,<3.0.0)",
-    "statsmodels (>=0.14.5,<0.15.0)",
-    "databricks-sdk (>=0.67.0,<0.68.0)",
+    "mlflow>=3.3.2,<4.0.0",
+    "seaborn>=0.13.2,<0.14.0",
+    "pydantic-settings>=2.10.1,<3.0.0",
+    "statsmodels>=0.14.5,<0.15.0",
+    "databricks-sdk>=0.67.0,<0.68.0"
 ]
-requires-python = ">=3.11,<4.0"
 
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
 
 [tool.ruff]
 line-length = 99
@@ -50,9 +56,3 @@ extend-select = ["I"]  # Add import sorting
 [tool.ruff.lint.isort]
 known-first-party = ["ml"]
 force-sort-within-sections = true
-
-
-
-
-
-

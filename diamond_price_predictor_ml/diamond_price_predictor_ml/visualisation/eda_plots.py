@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from ml.config import (
+from diamond_price_predictor_ml.config import (
     CATEGORICAL_COLUMNS,
     CATEGORY_ORDERS,
     FIGURES_DIR,

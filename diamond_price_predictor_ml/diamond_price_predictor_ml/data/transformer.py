@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from ml.config import logger
+from diamond_price_predictor_ml.config import logger
 
 
 class DiamondDataCleaner(BaseEstimator, TransformerMixin):
