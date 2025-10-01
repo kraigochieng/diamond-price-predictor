@@ -8,7 +8,8 @@ from mlflow.pyfunc import PyFuncModel
 from databricks.sdk import WorkspaceClient
 from server.schemas import DiamondRaw
 from server.settings import settings
-
+from apscheduler.schedulers.background import BackgroundScheduler
+from server.utils import ping_self
 import os
 
 
@@ -17,7 +18,7 @@ async def lifespan(app: FastAPI):
     # Authenticate databricks
     os.environ["DATABRICKS_HOST"] = settings.databricks_host
     os.environ["DATABRICKS_TOKEN"] = settings.databricks_token
-    
+
     os.environ["MLFLOW_TRACKING_URI"] = settings.mlflow_tracking_uri
 
     # Set tracking URI
@@ -34,7 +35,18 @@ async def lifespan(app: FastAPI):
     model_uri = f"models:/{settings.mlflow_model_name}/{settings.mlflow_model_version}"
 
     app.state.ml_model = mlflow.pyfunc.load_model(model_uri)
+
+    # Scheduler to keep app alive
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(ping_self, "interval", minutes=5)  # every 10 min
+    scheduler.start()
+
+    print("Scheduler started")
+
     yield
+
+    scheduler.shutdown()
+    print("Scheduler stopped")
 
 
 app = FastAPI(lifespan=lifespan)

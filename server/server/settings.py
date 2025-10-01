@@ -16,6 +16,8 @@ class Settings(BaseSettings):
 
     client_url: str
 
+    nuxt_public_api_base: str
+
     model_config = SettingsConfigDict(
         extra="allow", env_file=Path(__file__).resolve().parent.parent.parent / ".env"
     )
