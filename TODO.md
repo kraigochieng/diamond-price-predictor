@@ -1,9 +1,12 @@
 # Todo
 
+-   [ ] add favicon.ico
+
 # In Progress
 
--   [ ] find out how to creategod todo.md files
 -   [ ] create docker files for the ml and server so that they can be hosted on render
--   [ ] host the frontend on vercel, look for free
 
 # Done
+
+-   [x] find out how to create good todo.md files
+-   [x] host the frontend on vercel, look for free
