@@ -2,6 +2,11 @@
 
 **Know the Real Value of a Diamond — Using Just _Carat_**
 
+## Demo Screenshot
+
+![App Interface](docs/images/web-screenshot.png)
+_Clean, mobile-friendly UI — works on phone in the store_
+
 ## The Problem: Most Buyers Overpay — Even on Small Diamonds
 
 You’re shopping for a **small to mid-sized diamond** (0.2–1.5 carat) — maybe for an engagement ring, gift, or investment.
@@ -35,11 +40,6 @@ _No signup. Just enter specs → get price._
 | 2    | Click **"Predict Price"**    | **$1,820 – $2,180** (95% confidence)          |
 | 3    | See **price curve**          | "0.5ct avg: $1,900"                           |
 | 4    | Show jeweler                 | **"I know the data. Let’s talk real price."** |
-
-## Demo Screenshot
-
-![App Interface](docs/images/web-screenshot.png)
-_Clean, mobile-friendly UI — works on phone in the store_
 
 ### Monorepo layout
 
